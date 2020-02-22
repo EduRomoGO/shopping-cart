@@ -1,10 +1,11 @@
 import React from 'react';
 import './App.css';
-import Button from 'react-bootstrap/Button';
+import ShoppingCart from './components/ShoppingCart/ShoppingCart.js';
 
 function App() {
   return (
     <div className="App">
+      <ShoppingCart />
     </div>
   );
 }
