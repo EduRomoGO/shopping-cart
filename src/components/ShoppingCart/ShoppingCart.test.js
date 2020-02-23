@@ -73,6 +73,8 @@ describe('Shopping Cart', () => {
 
 
 
+    fireEvent.click(addItemToBasketButtons[2]);
+    fireEvent.click(addItemToBasketButtons[2]);
     // User can proceed to checkout
     const checkoutButton = getByText('Checkout');
     expect(checkoutButton).toBeInTheDocument();
@@ -83,8 +85,9 @@ describe('Shopping Cart', () => {
 
 
     // User can see the cart items in checkout
-    expect(getAllByRole('listitem').length).toBe(1);
+    expect(getAllByRole('listitem').length).toBe(2);
     expect(getAllByRole('listitem')[0].textContent).toBe('book: 2eur x 1 = 2eur');
+    expect(getAllByRole('listitem')[1].textContent).toBe('phone: 24eur x 2 = 48eur');
   });
 
   it('should render an error if there is a problem fetching data', async () => {
