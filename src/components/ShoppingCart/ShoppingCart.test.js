@@ -21,6 +21,8 @@ describe('Shopping Cart', () => {
     const appTitle = getByText('Shopping Cart');
     expect(appTitle).toBeInTheDocument();
 
+    const cartNumberOfItems = getByTestId('cartItemsNumber');
+    expect(cartNumberOfItems).toBeInTheDocument();
 
 
     // Component starts loading data
