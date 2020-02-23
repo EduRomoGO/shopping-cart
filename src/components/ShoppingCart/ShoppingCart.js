@@ -19,7 +19,7 @@ const productsReducer = (products, action) => {
     removeItemFromCart: payload => {
       return products.map(item => {
         return item.id === payload
-          ? {...item, cart: {quantity: item.cart.quantity - 1}}
+          ? {...item, cart: {quantity: Math.max(0, item.cart.quantity - 1)}}
           : item;
       });
     }

@@ -46,7 +46,6 @@ describe('Shopping Cart', () => {
 
 
     // User adds item to basket
-    fireEvent.click(productNodes[0]);
     const addItemToBasketButtons = getAllByText('+');
 
     fireEvent.click(addItemToBasketButtons[0]);
@@ -61,8 +60,16 @@ describe('Shopping Cart', () => {
 
     // User removes item from basket
     const removeFirstItemFromBasketButton = getAllByText('-')[0];
+
     fireEvent.click(removeFirstItemFromBasketButton);
     expect(cartNumberOfItems.textContent).toBe('2');
+
+    fireEvent.click(removeFirstItemFromBasketButton);
+    expect(cartNumberOfItems.textContent).toBe('1');
+
+    // Check that quantity of an item within the basket cannot be less than 0
+    fireEvent.click(removeFirstItemFromBasketButton);
+    expect(cartNumberOfItems.textContent).toBe('1');
 
   });
 
