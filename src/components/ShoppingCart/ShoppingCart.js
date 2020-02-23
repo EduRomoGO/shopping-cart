@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useReducer } from 'react';
 import { mockFetch } from '../../utils/mocks/mockFetch';
 import Products from '../Products/Products.js';
+import Checkout from '../Checkout/Checkout.js';
 import Button from 'react-bootstrap/Button';
 
 const processProducts = products => {
@@ -13,14 +14,14 @@ const productsReducer = (products, action) => {
     addItemToCart: payload => {
       return products.map(item => {
         return item.id === payload
-          ? {...item, cart: {quantity: item.cart.quantity + 1}}
+          ? { ...item, cart: { quantity: item.cart.quantity + 1 } }
           : item;
       });
     },
     removeItemFromCart: payload => {
       return products.map(item => {
         return item.id === payload
-          ? {...item, cart: {quantity: Math.max(0, item.cart.quantity - 1)}}
+          ? { ...item, cart: { quantity: Math.max(0, item.cart.quantity - 1) } }
           : item;
       });
     }
@@ -31,6 +32,7 @@ const productsReducer = (products, action) => {
 
 const ShoppingCart = () => {
   const [products, dispatch] = useReducer(productsReducer, []);
+  const [checkoutVisible, setCheckoutVisible] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
@@ -56,8 +58,8 @@ const ShoppingCart = () => {
   }, []);
 
 
-  const handleAddItem = itemId => dispatch({ type: 'addItemToCart', payload: itemId});
-  const handleRemoveItem = itemId => dispatch({ type: 'removeItemFromCart', payload: itemId});
+  const handleAddItem = itemId => dispatch({ type: 'addItemToCart', payload: itemId });
+  const handleRemoveItem = itemId => dispatch({ type: 'removeItemFromCart', payload: itemId });
 
 
   const renderProducts = (isLoading, products, isError) => {
@@ -73,6 +75,10 @@ const ShoppingCart = () => {
     }
   }
 
+  const renderCheckout = (products) => {
+    return products ? <Checkout products={products} /> : '';
+  }
+
   const getCartItemsNumber = products => {
     return products.reduce((acc, next) => acc + next.cart.quantity, 0);
   }
@@ -80,8 +86,11 @@ const ShoppingCart = () => {
   return <section className='c-shopping-cart'>
     <header><h1>Shopping Cart</h1></header>
     <div data-testid='cartItemsNumber'>{getCartItemsNumber(products)}</div>
-    {renderProducts(isLoading, products, isError)}
-    <Button>Checkout</Button>
+    {checkoutVisible
+      ? renderCheckout(products)
+      : renderProducts(isLoading, products, isError)
+    }
+    <Button onClick={() => setCheckoutVisible(true)}>Checkout</Button>
   </section>;
 }
 

@@ -16,7 +16,7 @@ describe('Shopping Cart', () => {
   it('renders correctly', async () => {
     mockFetch.mockResolvedValueOnce(products);
 
-    const { getByRole, getByText, getAllByText, findAllByRole, findByRole, getByTestId } = render(<ShoppingCart />);
+    const { getAllByRole, getByRole, getByText, getAllByText, findAllByRole, findByRole, getByTestId } = render(<ShoppingCart />);
 
     const appTitle = getByText('Shopping Cart');
     expect(appTitle).toBeInTheDocument();
@@ -78,10 +78,9 @@ describe('Shopping Cart', () => {
     const checkoutButton = getByText('Checkout');
     expect(checkoutButton).toBeInTheDocument();
 
-    const heading = getByRole('heading');
-    expect(heading.textContent).not.toBe('Checkout');
+    expect(getByRole('heading').textContent).not.toBe('Checkout');
     fireEvent.click(checkoutButton);
-    // expect()
+    expect(getAllByRole('heading')[1].textContent).toBe('Checkout');
   });
 
   it('should render an error if there is a problem fetching data', async () => {
