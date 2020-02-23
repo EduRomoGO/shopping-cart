@@ -88,6 +88,9 @@ describe('Shopping Cart', () => {
     expect(getAllByRole('listitem').length).toBe(2);
     expect(getAllByRole('listitem')[0].textContent).toBe('book: 2eur x 1 = 2eur');
     expect(getAllByRole('listitem')[1].textContent).toBe('phone: 24eur x 2 = 48eur');
+
+    // User can see the total price of the cart
+    expect(getByTestId('total-price').textContent).toBe('50eur');
   });
 
   it('should render an error if there is a problem fetching data', async () => {
