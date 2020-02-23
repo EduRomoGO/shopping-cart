@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { mockFetch } from '../../utils/mocks/mockFetch';
 import Products from '../Products/Products.js';
 
+const processProducts = products => {
+  return products.map(item => ({ ...item, cart: { quantity: 0 } }));
+}
+
 const ShoppingCart = () => {
   const [products, setProducts] = useState([]);
   const [isError, setIsError] = useState(false);
@@ -11,11 +15,12 @@ const ShoppingCart = () => {
       try {
         setIsLoading(true);
         const products = await mockFetch();
-        setProducts(products);
+
+        setProducts(processProducts(products));
         setIsLoading(false);
       } catch (err) {
         setIsLoading(false);
-        console.log(err);
+        // console.log(err);
         setIsError(true);
       }
     }
@@ -36,8 +41,13 @@ const ShoppingCart = () => {
     }
   }
 
+  const getCartItemsNumber = products => {
+    return products.reduce((acc, next) => acc + next.cart.quantity, 0);
+  }
+
   return <section className='c-shopping-cart'>
     <header><h1>Shopping Cart</h1></header>
+    <div data-testid='cartItemsNumber'>{getCartItemsNumber(products)}</div>
     {renderProducts(isLoading, products, isError)}
   </section>;
 }
