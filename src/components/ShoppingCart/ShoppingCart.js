@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { mockFetch } from '../../utils/mocks/mockFetch';
-
+import Products from '../Products/Products.js';
 
 const ShoppingCart = () => {
   const [products, setProducts] = useState([]);
@@ -16,9 +16,7 @@ const ShoppingCart = () => {
 
   return <section className='c-shopping-cart'>
     <header><h1>Shopping Cart</h1></header>
-    <ul>
-      {products.map(item => <li key={item.id}>{item.name}</li>)}
-    </ul>
+    <Products products={products} />
   </section>;
 }
 
