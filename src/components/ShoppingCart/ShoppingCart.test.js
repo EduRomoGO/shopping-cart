@@ -47,19 +47,22 @@ describe('Shopping Cart', () => {
 
     // User adds item to basket
     fireEvent.click(productNodes[0]);
+    const addItemToBasketButtons = getAllByText('+');
+
+    fireEvent.click(addItemToBasketButtons[0]);
     expect(cartNumberOfItems.textContent).toBe('1');
 
-    fireEvent.click(productNodes[0]);
+    fireEvent.click(addItemToBasketButtons[0]);
     expect(cartNumberOfItems.textContent).toBe('2');
 
-    fireEvent.click(productNodes[1]);
+    fireEvent.click(addItemToBasketButtons[1]);
     expect(cartNumberOfItems.textContent).toBe('3');
 
 
     // User removes item from basket
-    const removeFirstItemFromBasketButton = getAllByText('-')[0];
-    fireEvent.click(removeFirstItemFromBasketButton);
-    expect(cartNumberOfItems.textContent).toBe('2');
+    // const removeFirstItemFromBasketButton = getAllByText('-')[0];
+    // fireEvent.click(removeFirstItemFromBasketButton);
+    // expect(cartNumberOfItems.textContent).toBe('2');
 
   });
 
