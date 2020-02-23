@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useReducer } from 'react';
 import { mockFetch } from '../../utils/mocks/mockFetch';
 import Products from '../Products/Products.js';
 
@@ -6,8 +6,16 @@ const processProducts = products => {
   return products.map(item => ({ ...item, cart: { quantity: 0 } }));
 }
 
+const productsReducer = (state, action) => {
+  const reducerMap = {
+    load: payload => payload,
+  };
+
+  return reducerMap[action.type](action.payload);
+};
+
 const ShoppingCart = () => {
-  const [products, setProducts] = useState([]);
+  const [products, dispatch] = useReducer(productsReducer, []);
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
@@ -16,7 +24,11 @@ const ShoppingCart = () => {
         setIsLoading(true);
         const products = await mockFetch();
 
-        setProducts(processProducts(products));
+        dispatch({
+          type: 'load',
+          payload: processProducts(products),
+        });
+        // setProducts(processProducts(products));
         setIsLoading(false);
       } catch (err) {
         setIsLoading(false);
@@ -25,7 +37,7 @@ const ShoppingCart = () => {
       }
     }
 
-    fetchData()
+    fetchData();
   }, []);
 
   const renderProducts = (isLoading, products, isError) => {
