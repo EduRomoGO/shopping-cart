@@ -4,13 +4,13 @@ import ShoppingCart from './ShoppingCart.js';
 import { mockFetch } from '../../utils/mocks/mockFetch.js'
 import { products } from '../../utils/mocks/mocks.js'
 
-jest.mock('mockFetch');
+jest.mock('../../utils/mocks/mockFetch.js');
 
+afterEach(() => {
+  jest.resetAllMocks()
+});
 
 describe('Shopping Cart', () => {
-  afterEach(() => {
-    jest.resetAllMocks()
-  });
 
   test('renders learn react link', () => {
     mockFetch.mockResolvedValueOnce(products);
