@@ -81,6 +81,10 @@ describe('Shopping Cart', () => {
     expect(getByRole('heading').textContent).not.toBe('Checkout');
     fireEvent.click(checkoutButton);
     expect(getAllByRole('heading')[1].textContent).toBe('Checkout');
+
+
+    // User can see the cart items in checkout
+    expect(getAllByRole('listitem').length).toBe(1);
   });
 
   it('should render an error if there is a problem fetching data', async () => {
