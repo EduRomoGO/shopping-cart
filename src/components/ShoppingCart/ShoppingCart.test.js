@@ -48,6 +48,12 @@ describe('Shopping Cart', () => {
     // User adds item to basket
     fireEvent.click(productNodes[0]);
     expect(cartNumberOfItems.textContent).toBe('1');
+
+    fireEvent.click(productNodes[0]);
+    expect(cartNumberOfItems.textContent).toBe('2');
+
+    fireEvent.click(productNodes[1]);
+    expect(cartNumberOfItems.textContent).toBe('3');
   });
 
   it('should render an error if there is a problem fetching data', async () => {
