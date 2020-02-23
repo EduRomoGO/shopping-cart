@@ -12,20 +12,24 @@ afterEach(() => {
 
 describe('Shopping Cart', () => {
 
-  test('renders learn react link', () => {
+  it('renders correctly', () => {
     mockFetch.mockResolvedValueOnce(products);
+
+    const { getByText, getAllByRole } = render(<ShoppingCart />);
+
     expect(mockFetch).toHaveBeenCalledTimes(1);
 
+    // const productNodes = getAllByRole('listitem');
+    // expect(productNodes.length).toEqual(products.length);
 
-    const { getByText } = render(<ShoppingCart />);
 
     const linkElement = getByText('Shopping Cart');
     expect(linkElement).toBeInTheDocument();
 
     // Check that it fetches data
     // Mock data provider
-
     // Check data provider is called
+
     // Check that list of items is printed in the screen
     // Check loading view is shown while loading data
     // Check that error view is shown when error happens
