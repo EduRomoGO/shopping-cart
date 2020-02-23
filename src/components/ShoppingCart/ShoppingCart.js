@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useReducer } from 'react';
 import { mockFetch } from '../../utils/mocks/mockFetch';
 import Products from '../Products/Products.js';
+import Button from 'react-bootstrap/Button';
 
 const processProducts = products => {
   return products.map(item => ({ ...item, cart: { quantity: 0 } }));
@@ -80,6 +81,7 @@ const ShoppingCart = () => {
     <header><h1>Shopping Cart</h1></header>
     <div data-testid='cartItemsNumber'>{getCartItemsNumber(products)}</div>
     {renderProducts(isLoading, products, isError)}
+    <Button>Checkout</Button>
   </section>;
 }
 
