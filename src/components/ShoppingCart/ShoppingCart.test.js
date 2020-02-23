@@ -16,11 +16,11 @@ describe('Shopping Cart', () => {
   it('renders correctly', async () => {
     mockFetch.mockResolvedValueOnce(products);
 
-
     const { getByText, findAllByRole, findByRole, getByTestId } = render(<ShoppingCart />);
 
     const appTitle = getByText('Shopping Cart');
     expect(appTitle).toBeInTheDocument();
+
 
 
     // Component starts loading data
@@ -28,6 +28,8 @@ describe('Shopping Cart', () => {
     expect(loadingView).toBeInTheDocument();
 
     expect(mockFetch).toHaveBeenCalledTimes(1);
+
+
 
     // Components shows data fetched and hides loader
     const productNodesList = await findByRole('list');
@@ -39,12 +41,12 @@ describe('Shopping Cart', () => {
     expect(loadingView).not.toBeInTheDocument();
   });
 
-  it('should render an error if there is a problem fetching data', () => {
+  it('should render an error if there is a problem fetching data', async () => {
     mockFetch.mockRejectedValueOnce({status: 500});
 
-    const { getByText } = render(<ShoppingCart />);
+    const { findByText } = render(<ShoppingCart />);
 
-    const errorView = getByText('An error occured');
+    const errorView = await findByText('Something went wrong...');
     expect(errorView).toBeInTheDocument();
   });
 
