@@ -16,7 +16,7 @@ describe('Shopping Cart', () => {
   it('renders correctly', async () => {
     mockFetch.mockResolvedValueOnce(products);
 
-    const { getByText, getAllByRole, findAllByRole, findByRole, getByTestId } = render(<ShoppingCart />);
+    const { getByText, getAllByText, findAllByRole, findByRole, getByTestId } = render(<ShoppingCart />);
 
     const appTitle = getByText('Shopping Cart');
     expect(appTitle).toBeInTheDocument();
@@ -54,6 +54,13 @@ describe('Shopping Cart', () => {
 
     fireEvent.click(productNodes[1]);
     expect(cartNumberOfItems.textContent).toBe('3');
+
+
+    // User removes item from basket
+    const removeFirstItemFromBasketButton = getAllByText('-')[0];
+    fireEvent.click(removeFirstItemFromBasketButton);
+    expect(cartNumberOfItems.textContent).toBe('2');
+
   });
 
   it('should render an error if there is a problem fetching data', async () => {
