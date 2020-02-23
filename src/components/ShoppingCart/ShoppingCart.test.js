@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup, fireEvent, getAllByRole } from '@testing-library/react';
+import { render, cleanup, fireEvent, within } from '@testing-library/react';
 import ShoppingCart from './ShoppingCart.js';
 import { mockFetch } from '../../utils/mocks/mockFetch.js'
 import { products } from '../../utils/mocks/mocks.js'
@@ -16,7 +16,7 @@ describe('Shopping Cart', () => {
   it('renders correctly', async () => {
     mockFetch.mockResolvedValueOnce(products);
 
-    const { getByText, getAllByText, findAllByRole, findByRole, getByTestId } = render(<ShoppingCart />);
+    const { getByRole, getByText, getAllByText, findAllByRole, findByRole, getByTestId } = render(<ShoppingCart />);
 
     const appTitle = getByText('Shopping Cart');
     expect(appTitle).toBeInTheDocument();
@@ -78,6 +78,10 @@ describe('Shopping Cart', () => {
     const checkoutButton = getByText('Checkout');
     expect(checkoutButton).toBeInTheDocument();
 
+    const heading = getByRole('heading');
+    expect(heading.textContent).not.toBe('Checkout');
+    fireEvent.click(checkoutButton);
+    // expect()
   });
 
   it('should render an error if there is a problem fetching data', async () => {
