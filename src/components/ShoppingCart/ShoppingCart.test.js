@@ -12,14 +12,14 @@ afterEach(() => {
 
 describe('Shopping Cart', () => {
 
-  it('renders correctly', () => {
+  it('renders correctly', async () => {
     mockFetch.mockResolvedValueOnce(products);
 
-    const { getByText, getAllByRole } = render(<ShoppingCart />);
+    const { getByText, findAllByRole } = render(<ShoppingCart />);
 
     expect(mockFetch).toHaveBeenCalledTimes(1);
 
-    const productNodes = getAllByRole('listitem');
+    const productNodes = await findAllByRole('listitem');
     expect(productNodes.length).toEqual(products.length);
 
 
