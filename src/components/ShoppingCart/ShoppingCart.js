@@ -6,9 +6,16 @@ const processProducts = products => {
   return products.map(item => ({ ...item, cart: { quantity: 0 } }));
 }
 
-const productsReducer = (state, action) => {
+const productsReducer = (products, action) => {
   const reducerMap = {
     load: payload => payload,
+    addItemToCart: payload => {
+      return products.map(item => {
+        return item.id === payload
+          ? {...item, cart: {quantity: item.cart.quantity + 1}}
+          : item;
+      });
+    },
   };
 
   return reducerMap[action.type](action.payload);
@@ -40,6 +47,10 @@ const ShoppingCart = () => {
     fetchData();
   }, []);
 
+
+  const handleAddItem = itemId => dispatch({ type: 'addItemToCart', payload: itemId});
+
+
   const renderProducts = (isLoading, products, isError) => {
 
     if (isLoading) {
@@ -49,7 +60,7 @@ const ShoppingCart = () => {
     if (isError) {
       return <div>Something went wrong...</div>;
     } else {
-      return products ? <Products products={products} /> : '';
+      return products ? <Products onAddItem={handleAddItem} products={products} /> : '';
     }
   }
 
