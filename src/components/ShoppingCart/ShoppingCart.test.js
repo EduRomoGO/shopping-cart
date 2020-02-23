@@ -39,7 +39,7 @@ describe('Shopping Cart', () => {
     expect(loadingView).not.toBeInTheDocument();
   });
 
-  xit('should render an error if there is a problem fetching data', () => {
+  it('should render an error if there is a problem fetching data', () => {
     mockFetch.mockRejectedValueOnce({status: 500});
 
     const { getByText } = render(<ShoppingCart />);
