@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, findByRole, findByTestId, cleanup } from '@testing-library/react';
+import { render, cleanup } from '@testing-library/react';
 import ShoppingCart from './ShoppingCart.js';
 import { mockFetch } from '../../utils/mocks/mockFetch.js'
 import { products } from '../../utils/mocks/mocks.js'
@@ -37,11 +37,15 @@ describe('Shopping Cart', () => {
     expect(productNodes.length).toEqual(products.length);
 
     expect(loadingView).not.toBeInTheDocument();
+  });
 
+  xit('should render an error if there is a problem fetching data', () => {
+    mockFetch.mockRejectedValueOnce({status: 500});
 
+    const { getByText } = render(<ShoppingCart />);
 
-    // Check that error view is shown when error happens
-
+    const errorView = getByText('An error occured');
+    expect(errorView).toBeInTheDocument();
   });
 
 });

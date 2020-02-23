@@ -17,11 +17,15 @@ const ShoppingCart = () => {
     fetchData()
   }, []);
 
+  const renderProducts = (isLoading, products) => {
+    return isLoading
+      ? <div data-testid='loader'>Loading...</div>
+      : products ? <Products products={products} /> : '';
+  }
+
   return <section className='c-shopping-cart'>
     <header><h1>Shopping Cart</h1></header>
-    {isLoading
-      ? <div data-testid='loader'>Loading...</div>
-      : <Products products={products} />}
+    {renderProducts(isLoading, products)}
   </section>;
 }
 
