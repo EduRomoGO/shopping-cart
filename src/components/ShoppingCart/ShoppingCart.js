@@ -16,6 +16,13 @@ const productsReducer = (products, action) => {
           : item;
       });
     },
+    removeItemFromCart: payload => {
+      return products.map(item => {
+        return item.id === payload
+          ? {...item, cart: {quantity: item.cart.quantity - 1}}
+          : item;
+      });
+    }
   };
 
   return reducerMap[action.type](action.payload);
@@ -49,6 +56,7 @@ const ShoppingCart = () => {
 
 
   const handleAddItem = itemId => dispatch({ type: 'addItemToCart', payload: itemId});
+  const handleRemoveItem = itemId => dispatch({ type: 'removeItemFromCart', payload: itemId});
 
 
   const renderProducts = (isLoading, products, isError) => {
@@ -60,7 +68,7 @@ const ShoppingCart = () => {
     if (isError) {
       return <div>Something went wrong...</div>;
     } else {
-      return products ? <Products onAddItem={handleAddItem} products={products} /> : '';
+      return products ? <Products onAddItem={handleAddItem} onRemoveItem={handleRemoveItem} products={products} /> : '';
     }
   }
 
