@@ -71,7 +71,11 @@ const ShoppingCart = () => {
     if (isError) {
       return <div>Something went wrong...</div>;
     } else {
-      return products ? <Products onAddItem={handleAddItem} onRemoveItem={handleRemoveItem} products={products} /> : '';
+      return products ? <div>
+        <div data-testid='cartItemsNumber'>{getCartItemsNumber(products)}</div>
+        <Products onAddItem={handleAddItem} onRemoveItem={handleRemoveItem} products={products} />
+      </div>
+       : '';
     }
   }
 
@@ -85,7 +89,6 @@ const ShoppingCart = () => {
 
   return <section className='c-shopping-cart'>
     <header><h1>Shopping Cart</h1></header>
-    <div data-testid='cartItemsNumber'>{getCartItemsNumber(products)}</div>
     {checkoutVisible
       ? renderCheckout(products)
       : renderProducts(isLoading, products, isError)

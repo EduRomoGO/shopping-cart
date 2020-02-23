@@ -16,19 +16,14 @@ describe('Shopping Cart', () => {
   it('renders correctly', async () => {
     mockFetch.mockResolvedValueOnce(products);
 
-    const { getAllByRole, getByRole, getByText, getAllByText, findAllByRole, findByRole, getByTestId } = render(<ShoppingCart />);
+    const { queryByTestId, getAllByRole, getByRole, getByText, getAllByText, findAllByRole, findByRole, getByTestId } = render(<ShoppingCart />);
 
     const appTitle = getByText('Shopping Cart');
     expect(appTitle).toBeInTheDocument();
 
-    const cartNumberOfItems = getByTestId('cartItemsNumber');
-    expect(cartNumberOfItems).toBeInTheDocument();
-    expect(cartNumberOfItems.textContent).toBe('0');
-
 
     // Component starts loading data
-    const loadingView = getByTestId('loader');
-    expect(loadingView).toBeInTheDocument();
+    expect(getByTestId('loader')).toBeInTheDocument();
 
     expect(mockFetch).toHaveBeenCalledTimes(1);
 
@@ -41,7 +36,11 @@ describe('Shopping Cart', () => {
     const productNodes = await findAllByRole('listitem');
     expect(productNodes.length).toEqual(products.length);
 
-    expect(loadingView).not.toBeInTheDocument();
+    expect(queryByTestId('loader')).toBeNull();
+
+    const cartNumberOfItems = getByTestId('cartItemsNumber');
+    expect(cartNumberOfItems).toBeInTheDocument();
+    expect(cartNumberOfItems.textContent).toBe('0');
 
 
 
