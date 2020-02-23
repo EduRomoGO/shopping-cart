@@ -60,9 +60,9 @@ describe('Shopping Cart', () => {
 
 
     // User removes item from basket
-    // const removeFirstItemFromBasketButton = getAllByText('-')[0];
-    // fireEvent.click(removeFirstItemFromBasketButton);
-    // expect(cartNumberOfItems.textContent).toBe('2');
+    const removeFirstItemFromBasketButton = getAllByText('-')[0];
+    fireEvent.click(removeFirstItemFromBasketButton);
+    expect(cartNumberOfItems.textContent).toBe('2');
 
   });
 
