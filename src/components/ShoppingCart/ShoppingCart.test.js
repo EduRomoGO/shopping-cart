@@ -19,8 +19,8 @@ describe('Shopping Cart', () => {
 
     expect(mockFetch).toHaveBeenCalledTimes(1);
 
-    // const productNodes = getAllByRole('listitem');
-    // expect(productNodes.length).toEqual(products.length);
+    const productNodes = getAllByRole('listitem');
+    expect(productNodes.length).toEqual(products.length);
 
 
     const linkElement = getByText('Shopping Cart');
