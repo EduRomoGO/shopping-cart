@@ -58,6 +58,7 @@ describe('Shopping Cart', () => {
     expect(cartNumberOfItems.textContent).toBe('3');
 
 
+
     // User removes item from basket
     const removeItemFromBasketButtons = getAllByText('-');
 
@@ -70,6 +71,12 @@ describe('Shopping Cart', () => {
     // Check that quantity of an item within the basket cannot be less than 0
     fireEvent.click(removeItemFromBasketButtons[0]);
     expect(cartNumberOfItems.textContent).toBe('1');
+
+
+
+    // User can proceed to checkout
+    const checkoutButton = getByText('Checkout');
+    expect(checkoutButton).toBeInTheDocument();
 
   });
 
