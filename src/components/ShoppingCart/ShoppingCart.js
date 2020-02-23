@@ -16,7 +16,9 @@ const ShoppingCart = () => {
 
   return <section className='c-shopping-cart'>
     <header><h1>Shopping Cart</h1></header>
-    {products.map(item => <li key={item.id}>{item.name}</li>)}
+    <ul>
+      {products.map(item => <li key={item.id}>{item.name}</li>)}
+    </ul>
   </section>;
 }
 
