@@ -2,7 +2,12 @@ import React, { useEffect, useState, useReducer } from 'react';
 import { mockFetch } from '../../utils/mocks/mockFetch';
 import Products from '../Products/Products.js';
 import Checkout from '../Checkout/Checkout.js';
-import Button from 'react-bootstrap/Button';
+import './ShoppingCart.css';
+import {
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 const processProducts = products => {
   return products.map(item => ({ ...item, cart: { quantity: 0 } }));
@@ -32,7 +37,6 @@ const productsReducer = (products, action) => {
 
 const ShoppingCart = () => {
   const [products, dispatch] = useReducer(productsReducer, []);
-  const [checkoutVisible, setCheckoutVisible] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
@@ -75,7 +79,7 @@ const ShoppingCart = () => {
         <div data-testid='cartItemsNumber'>{getCartItemsNumber(products)}</div>
         <Products onAddItem={handleAddItem} onRemoveItem={handleRemoveItem} products={products} />
       </div>
-       : '';
+        : '';
     }
   }
 
@@ -87,13 +91,25 @@ const ShoppingCart = () => {
     return products.reduce((acc, next) => acc + next.cart.quantity, 0);
   }
 
+
+  const renderRouting = () => {
+    return <div>
+      <Switch>
+        <Route path="/products">
+          {renderProducts(isLoading, products, isError)}
+          <Link role='button' className='button' to="/checkout">Checkout</Link>
+        </Route>
+        <Route path="/checkout">
+          <Link role='button' className='button' to="/products">Products</Link>
+          {renderCheckout(products)}
+        </Route>
+      </Switch>
+    </div>
+  }
+
   return <section className='c-shopping-cart'>
     <header><h1>Shopping Cart</h1></header>
-    {checkoutVisible
-      ? renderCheckout(products)
-      : renderProducts(isLoading, products, isError)
-    }
-    <Button onClick={() => setCheckoutVisible(true)}>Checkout</Button>
+    {renderRouting()}
   </section>;
 }
 

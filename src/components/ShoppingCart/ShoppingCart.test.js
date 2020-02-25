@@ -1,8 +1,11 @@
 import React from 'react';
-import { render, cleanup, fireEvent, within } from '@testing-library/react';
+import { render, cleanup, fireEvent } from '@testing-library/react';
 import ShoppingCart from './ShoppingCart.js';
 import { mockFetch } from '../../utils/mocks/mockFetch.js'
 import { products } from '../../utils/mocks/mocks.js'
+import { Router } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
+
 
 jest.mock('../../utils/mocks/mockFetch.js');
 
@@ -16,7 +19,14 @@ describe('Shopping Cart', () => {
   it('renders correctly', async () => {
     mockFetch.mockResolvedValueOnce(products);
 
-    const { queryByTestId, getAllByRole, getByRole, getByText, getAllByText, findAllByRole, findByRole, getByTestId } = render(<ShoppingCart />);
+    const history = createMemoryHistory();
+    const route = '/products';
+    history.push(route);
+    const { queryByTestId, getAllByRole, getByRole, getByText, getAllByText, findAllByRole, findByRole, getByTestId } = render(
+      <Router history={history}>
+        <ShoppingCart />
+      </Router>
+    );
 
     const appTitle = getByText('Shopping Cart');
     expect(appTitle).toBeInTheDocument();
@@ -96,7 +106,14 @@ describe('Shopping Cart', () => {
   it('should render an error if there is a problem fetching data', async () => {
     mockFetch.mockRejectedValueOnce({status: 500});
 
-    const { findByText } = render(<ShoppingCart />);
+    const history = createMemoryHistory();
+    const route = '/products';
+    history.push(route);
+    const { findByText } = render(
+      <Router history={history}>
+        <ShoppingCart />
+      </Router>
+    );
 
     const errorView = await findByText('Something went wrong...');
     expect(errorView).toBeInTheDocument();
